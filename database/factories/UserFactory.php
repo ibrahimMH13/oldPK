@@ -21,3 +21,17 @@ $factory->define(App\User::class, function (Faker $faker) {
         'remember_token' => str_random(10),
     ];
 });
+$factory->define(App\Models\Threads::class, function (Faker $faker) {
+    return [
+        'title' => $faker->sentence,
+        'body' => $faker->text,
+        'password' => function(){ return factory('App\User')->create()->id; }
+    ];
+});
+$factory->define(App\Models\Reply::class, function (Faker $faker) {
+    return [
+        'user_id' => function(){return factory('App\User')->create()->id;},
+        'thread_id' => function(){return factory('App\Models\Threads')->create()->id;},
+        'body' => $faker->paragraph
+    ];
+});
